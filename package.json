@@ -1,0 +1,41 @@
+{
+  "name": "converter",
+  "version": "0.0.1",
+  "description": "currency converter endpoint",
+  "main": "index.js",
+  "author": "Eidoo SAGL",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.0",
+    "nodemon": "^2.0.1",
+    "nyc": "^14.1.1",
+    "rosie": "^2.0.1",
+    "sinon": "^7.4.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "lodash": "^4.17.15",
+    "pg": "^7.12.1",
+    "typeorm": "^0.2.18",
+    "xml-js": "^1.6.11"
+  },
+  "scripts": {
+    "db:migration:generate": "./node_modules/.bin/typeorm migration:generate -n",
+    "db:migration:revert": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert",
+    "db:migration:run": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run",
+    "populate": "node data/populate.js | npx bunyan",
+    "start": "node ./src/index.js | npx bunyan",
+    "start:dev": "nodemon ./src/index.js | npx bunyan",
+    "test": "NODE_ENV=test nyc --reporter=html mocha -r test/helper.js $(find . -name '*.spec.js' -not -path './node_modules/*')",
+    "test:unit": "NODE_ENV=test nyc --reporter=html mocha -r test/helper.js $(find src -name '*.spec.js')"
+  }
+}
