@@ -1,14 +1,26 @@
 # https://docs.docker.com/compose/compose-file/
 
-version: "3"
+version: "3.7"
+x-common-variables: &common-variables
+    POSTGRES_DB: currency_conversion_data_dev
+    POSTGRES_USER: dev
+    POSTGRES_PASSWORD: secret_password
 services:
+    app:
+        build: .
+        depends_on:
+             - db
+        environment:
+            POSTGRES_HOST: db
+            <<: *common-variables
+        ports:
+            - "3000:3000"
+        command: ["./wait-for-it.sh", "db:5432", "--", "bash", "./init.sh"]
     db:
         image: postgres:11
         environment:
             PGDATA: /mnt/db_volume/postgres_data
-            POSTGRES_DB: currency_conversion_data_dev
-            POSTGRES_USER: dev
-            POSTGRES_PASSWORD: secret_password
+            <<: *common-variables
         ports:
             - "5432:5432"
         volumes:
