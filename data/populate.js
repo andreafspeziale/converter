@@ -28,18 +28,24 @@ const loggerFactory = require('../src/factories/loggerFactory');
     const dbConnection = await createConnection()
     const queryRunner = dbConnection.createQueryRunner()
     await queryRunner.connect()
-    await queryRunner.startTransaction()
 
-    const insertions = datesWithCurrencyRates.reduce((acc, item) => {
-      const promises = item.rates.map((current) => {
-        const rate = new RateModel({ date: item.date, ticker: current.currency, rate: current.rate })
-        return queryRunner.manager.save(RateEntity, rate)
-      })
-      return acc.concat(promises)
-    }, [])
-    await Promise.all(insertions)
+    const result = await queryRunner.manager.getRepository(RateEntity).find({ id: 1 })
+    if (!result.length) {
+      logger.info('Inserting data...')
+      await queryRunner.startTransaction()
+      const insertions = datesWithCurrencyRates.reduce((acc, item) => {
+        const promises = item.rates.map((current) => {
+          const rate = new RateModel({ date: item.date, ticker: current.currency, rate: current.rate })
+          return queryRunner.manager.save(RateEntity, rate)
+        })
+        return acc.concat(promises)
+      }, [])
+      await Promise.all(insertions)
+      await queryRunner.commitTransaction()
+    } else {
+      logger.info('Data already inserted')
+    }
 
-    await queryRunner.commitTransaction()
     await queryRunner.release()
     await dbConnection.close()
     logger.info('Finished.')
