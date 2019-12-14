@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/eidoo/hybrid-exchange-sdk/compare/v0.1.0...HEAD)
 
+### Fix
+
+- Fix `package.json` author and scripts.
+
 ## [v0.1.0](https://github.com/eidoo/hybrid-exchange-sdk/compare/5136536...v0.1.0)
 
 - Initial release.
