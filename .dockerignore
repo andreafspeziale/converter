@@ -1,0 +1,10 @@
+.eslintrc.js
+coverage
+node_modules
+.DS_Store
+.nyc_output
+db_volume
+.git
+.gitignore
+.github
+CHANGELOG.md
