@@ -25,7 +25,7 @@
     "express-validator": "^6.3.0",
     "lodash": "^4.17.19",
     "pg": "^7.12.1",
-    "typeorm": "^0.2.18",
+    "typeorm": "^0.2.25",
     "xml-js": "^1.6.11"
   },
   "scripts": {
